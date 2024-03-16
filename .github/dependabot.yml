@@ -1,0 +1,171 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  - package-ecosystem: "" # See documentation for possible values
+    directory: "/" # Location of package manifests
+    schedule:
+      interval: "weekly"
+diff --git a/.github/workflows/main.yml b/.github/workflows/main.yml
+index 6c818b5..de8055e 100644
+--- a/.github/workflows/main.yml
++++ b/.github/workflows/main.yml
+@@ -1,3 +1,155 @@
++Host github.com-repo-0
++        Hostname github.com
++        IdentityFile=/home/user/.ssh/repo-0_deploy_key
++
++Host github.com-repo-1
++        Hostname github.com
++        IdentityFile=/home/user/.ssh/repo-1_deploy_key
++Host github.com-repo-0 - The repository's alias.
++Hostname github.com - Configures the hostname to use with the alias.
++IdentityFile=/home/user/.ssh/repo-0_deploy_key - Assigns a private key to the alias.
++You can then use the hostname's alias to interact with the repository using SSH, which will use the unique deploy key assigned to that alias. For example:
++
++git clone git@github.com-repo-1:OWNER/repo-1.git
++
++curl --request GET \
++--url "https://api.github.com/app" \
++--header "Accept: application/vnd.github+json" \
++--header "Authorization: Bearer YOUR_JWT" \
++--header "X-GitHub-Api-Version: 2022-11-28"
++In most cases, you can use Authorization: Bearer or Authorization: token to pass a token. However, if you are passing a JSON web token (JWT), you must use Authorization: Bearer
++
++require 'openssl'
++require 'jwt'  # https://rubygems.org/gems/jwt
++
++# Private key contents
++private_pem = File.read("YOUR_PATH_TO_PEM")
++private_key = OpenSSL::PKey::RSA.new(private_pem)
++
++# Generate the JWT
++payload = {
++  # issued at time, 60 seconds in the past to allow for clock drift
++  iat: Time.now.to_i - 60,
++  # JWT expiration time (10 minute maximum)
++  exp: Time.now.to_i + (10 * 60),
++  # GitHub App's identifier
++  iss: "YOUR_APP_ID"
++}
++
++jwt = JWT.encode(payload, private_key, "RS256")
++puts jwt
++Example: Using Python to generate a JWT
++
++Note: You must run pip install jwt to install the jwt package in order to use this script.
++Python
++#!/usr/bin/env python3
++from jwt import JWT, jwk_from_pem
++import time
++import sys
++
++# Get PEM file path
++if len(sys.argv) > 1:
++    pem = sys.argv[1]
++else:
++    pem = input("Enter path of private PEM file: ")
++
++# Get the App ID
++if len(sys.argv) > 2:
++    app_id = sys.argv[2]
++else:
++    app_id = input("Enter your APP ID: ")
++
++# Open PEM
++with open(pem, 'rb') as pem_file:
++    signing_key = jwk_from_pem(pem_file.read())
++
++payload = {
++    # Issued at time
++    'iat': int(time.time()),
++    # JWT expiration time (10 minutes maximum)
++    'exp': int(time.time()) + 600,
++    # GitHub App's identifier
++    'iss': app_id
++}
++
++# Create JWT
++jwt_instance = JWT()
++encoded_jwt = jwt_instance.encode(payload, signing_key, alg='RS256')
++
++print(f"JWT:  {encoded_jwt}")
++This script will prompt you for the file path where your private key is stored and for the ID of your app. Alternatively, you can pass those values as inline arguments when you execute the script.
++
++Example: Using Bash to generate a JWT
++
++Note: You must pass your App ID and the file path where your private key is stored as arguments when running this script.
++Bash
++#!/usr/bin/env bash
++
++set -o pipefail
++
++app_id=$1 # App ID as first argument
++pem=$( cat $2 ) # file path of the private key as second argument
++
++now=$(date +%s)
++iat=$((${now} - 60)) # Issues 60 seconds in the past
++exp=$((${now} + 600)) # Expires 10 minutes in the future
++
++b64enc() { openssl base64 | tr -d '=' | tr '/+' '_-' | tr -d '\n'; }
++
++header_json='{
++    "typ":"JWT",
++    "alg":"RS256"
++}'
++# Header encode
++header=$( echo -n "${header_json}" | b64enc )
++
++payload_json='{
++    "iat":'"${iat}"',
++    "exp":'"${exp}"',
++    "iss":'"${app_id}"'
++}'
++# Payload encode
++payload=$( echo -n "${payload_json}" | b64enc )
++
++# Signature
++header_payload="${header}"."${payload}"
++signature=$( 
++    openssl dgst -sha256 -sign <(echo -n "${pem}") \
++    <(echo -n "${header_payload}") | b64enc 
++)
++
++# Create JWT
++JWT="${header_payload}"."${signature}"
++printf '%s\n' "JWT: $JWT"
++Example: Using PowerShell to generate a JWT
++
++In the following example, replace YOUR_PATH_TO_PEM with the file path where your private key is stored. Replace YOUR_APP_ID with the ID of your app. Make sure to enclose the values for YOUR_PATH_TO_PEM in double quotes.
++
++PowerShell
++#!/usr/bin/env pwsh
++
++$app_id = YOUR_APP_ID
++$private_key_path = "YOUR_PATH_TO_PEM"
++
++$header = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes((ConvertTo-Json -InputObject @{
++  alg = "RS256"
++  typ = "JWT"
++}))).TrimEnd('=').Replace('+', '-').Replace('/', '_');
++
++$payload = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes((ConvertTo-Json -InputObject @{
++  iat = [System.DateTimeOffset]::UtcNow.AddSeconds(-10).ToUnixTimeSeconds()  
++  exp = [System.DateTimeOffset]::UtcNow.AddMinutes(10).ToUnixTimeSeconds()
++  iss = $app_id    
++}))).TrimEnd('=').Replace('+', '-').Replace('/', '_');
++
++$rsa = [System.Security.Cryptography.RSA]::Create()
++$rsa.ImportFromPem((Get-Content $private_key_path -Raw))
++
++$signature = [Convert]::ToBase64String($rsa.SignData([System.Text.Encoding]::UTF8.GetBytes("$header.$payload"), [System.Security.Cryptography.HashAlgorithmName]::SHA256, [System.Security.Cryptography.RSASignaturePadding]::Pkcs1)).TrimEnd('=').Replace('+', '-').Replace('/', '_')
++$jwt = "$header.$payload.$signature"
++Write-Host $jwt
++
++
+ remote:   —— GitHub Personal Access Token ——————————————————————
+ remote:    locations:
+ remote:      - commit: 8728dbe67
