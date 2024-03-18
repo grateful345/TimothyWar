@@ -17,6 +17,130 @@ stripe open --live --list
 stripe listen
 stripe listen --forward-to http://localhost:4242
 stripe listen --events=payment_intent.succeeded
+stripe login
+brew install stripe/stripe-cli/stripe
+Your pairing code is: enjoy-enough-outwit-win
+This pairing code verifies your authentication with Stripe.
+Press Enter to open the browser or visit https://dashboard.stripe.com/stripecli/confirm_auth?t=THQdJfL3x12udFkNorJL8OF1iFlN8Az1 (^C to quit)
+stripe products create \
+--name="My First Product" \
+--description="Created with the Stripe CLI"
+{
+  "id": "prod_LTenIrmp8Q67sa",
+  "object": "product",
+  "active": true,
+  "attributes": [],
+  "created": 1668198126,
+  "default_price": null,
+  "description": "Created with the Stripe CLI",
+  "identifiers": {},
+  "images": [],
+  "livemode": false,
+  "metadata": {},
+  "name": "My First Product",
+  "package_dimensions": null,
+  "price": null,
+  "product_class": null,
+  "shippable": null,
+  "sku": "my-first-product-10",
+  "statement_descriptor": null,
+  "tax_code": null,
+  "type": "service",
+  "unit_label": null,
+  "updated": 1668198126,
+  "url": null
+}
+stripe prices create \
+  --unit-amount=3000 \
+  --currency=usd \
+  --product="{{PRODUCT_ID}}"
+python3 -m venv env
+source env/bin/activate
+python3 -m venv env
+source env/bin/activate
+python3 --version
+pip3 install --upgrade stripe
+stripe>=7.0.0
+import stripe
+stripe.api_key = "sk_test_51OR5ePGF83d3fsgWlh41IbGHGtqdiPuFhrcWczglEeFJvQxajyQVCQiZYVZz62HOuYL9tA8dxEQ2MRbxbcYsf8OF00CdDfT6Xq"
+
+starter_subscription = stripe.Product.create(
+  name="Starter Subscription",
+  description="$12/Month subscription",
+)
+
+starter_subscription_price = stripe.Price.create(
+  unit_amount=1200,
+  currency="usd",
+  recurring={"interval": "month"},
+  product=starter_subscription['id'],
+)
+
+# Save these identifiers
+print(f"Success! Here is your starter subscription product id: {starter_subscription.id}")
+print(f"Success! Here is your starter subscription price id: {starter_subscription_price.id}")
+python3 create_price.py
+Success! Here is your starter subscription product id: prod_0KxBDl589O8KAxCG1alJgiA6
+Success! Here is your starter subscription price id: price_0KxBDm589O8KAxCGMgG7scjb
+stripe events resend evt_1OpkWDGF83d3fsgWRuQHTout
+{
+  "id": "evt_1OpkWDGF83d3fsgWRuQHTout",
+  "object": "event",
+  "api_version": "2023-10-16",
+  "created": 1709354993,
+  "data": {
+    "object": {
+      "id": "clock_1OpkVpGF83d3fsgWXAn5JwxT",
+      "object": "test_helpers.test_clock",
+      "created": 1709354969,
+      "deletes_after": 1711946969,
+      "frozen_time": 1709354959,
+      "livemode": false,
+      "name": "10 day",
+      "status": "ready"
+    }
+  },
+  "livemode": false,
+  "pending_webhooks": 0,
+  "request": {
+    "id": "req_h41wlESGApv90k",
+    "idempotency_key": null
+  },
+  "type": "test_helpers.test_clock.deleted"
+}
+stripe charges --help
+
+Available Operations:
+  capture
+  create
+  list
+...
+
+stripe charges create \
+    --amount=100 \
+    --currency=usd \
+    --source=tok_visa
+
+stripe charges update ch_3OT0YJGF83d3fsgW0KNQUZY9 \
+    -d "metadata[key]=value"
+
+stripe charges retrieve ch_3OT0YJGF83d3fsgW0KNQUZY9
+
+{
+  "id": "ch_3OT0YJGF83d3fsgW0KNQUZY9",
+  "object": "charge",
+  "amount": 100,
+  "amount_captured": 0,
+stripe get ch_3OT0YJGF83d3fsgW0KNQUZY9
+stripe get /v1/charges --limit 50
+stripe get /v1/subscriptions -d status=past_due \
+    | jq ".data[].id" \
+    | xargs -I % -p stripe delete /subscriptions/%'
+stripe serve ./sales-tax-sample
+stripe terminal quickstart    
+stripe version
+
+
 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
 pk_live_51OR5ePGF83d3fsgW22PwNtYiShCVYIsrzZq2WxlxN2UAaB2qEIu0aUFJzjJxPtNT3rAs0Rvdo9XIVPb7rRMaeo3W00ALk76MVR
 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 secret
