@@ -4,8 +4,22 @@ https://gist.github.com/grateful345/b1ee672eadea516c2c44407e37df794b
 <script src="https://gist.github.com/grateful345/b1ee672eadea516c2c44407e37df794b.js"></script>
 (jE92Hk8uCBZnJEh1PP0PoUVDwnuYFdVp) AUTH TOKEN ALCHEMY
 (alcht_qlRcvhnTgdhjejYLLZ5CXQ0GFsTHpy) Timothy Sirius Black
+stripe logs tail
 
-Signing secret
+stripe logs tail \
+    --filter-http-method POST \
+    --filter-status-code-type 4XX
+stripe logs tail --filter-http-method GET,POST
+stripe open dashboard/webhooks
+stripe open dashboard/apikeys --live
+stripe open --live --list
+
+stripe listen
+stripe listen --forward-to http://localhost:4242
+stripe listen --events=payment_intent.succeeded
+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
+pk_live_51OR5ePGF83d3fsgW22PwNtYiShCVYIsrzZq2WxlxN2UAaB2qEIu0aUFJzjJxPtNT3rAs0Rvdo9XIVPb7rRMaeo3W00ALk76MVR
+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 secret
 whsec_5V2GHGaht2mGJGNOmesTtTaxuJWFRssS
 we_1OvWklGF83d3fsgWrIqJCfFq
 
