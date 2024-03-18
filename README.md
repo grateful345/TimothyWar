@@ -9,6 +9,11 @@ From: grateful345 <163609752+grateful345@users.noreply.github.com>
 Date: Sat, 16 Mar 2024 19:33:24 -0500
 Subject: [PATCH] Update README.md
 
+Stfripe restricted key
+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
+Stripe publishable key
+pk_live_51OR5ePGF83d3fsgW22PwNtYiShCVYIsrzZq2WxlxN2UAaB2qEIu0aUFJzjJxPtNT3rAs0Rvdo9XIVPb7rRMaeo3W00ALk76MVR
+
 alcht_qlRcvhnTgdhjejYLLZ5CXQ0GFsTHpy
 ---
  README.md | 2095 ++++++++++++++++++++++++++++++++++++++++++++++++++++-
