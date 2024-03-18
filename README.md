@@ -8,7 +8,8 @@ Routing number
 031101279
 ID
 ba_1OR7BGGF83d3fsgWxwDM4lDf
-
+we_1Ova66GF83d3fsgW2nbowkDw
+ Stripe endpoint
 ${now} - 60)) # Issues 60 seconds in the past
 exp=$
 ((${now} + 600)) # Expires 10 minutes in the future
@@ -25030,6 +25031,4 @@ agent-program file ¶ Specify the agent program to be started if none is running
 
 --gpgsm-program file Specify a non-default gpgsm binary to be used by certain commands.
 
---chuid uid Change the current user to uid which may either be a number or a name. This can be used from the root account to run gpg-card for another user. If uid is not the current UID a standard PATH is set and the envvar GNUPGHOME is unset. To override the latter the option --homedir can be used. This option has only an effect when used on the command line. This option has currently no effect at all on Windows.
-
-gpg-card AUTHENTICATE [--setkey] [--raw] [< file]|010203040506070801020304050607080102030405060708] ¶ AUTH FETCH GEN
+--chuid uid Change the current user to uid which may either be a number or a name. This can be used from the root account to run gpg-card for another user. If uid is not the current UID a standard PATH is set and the envvar GNUPGHOME is unset. To override the latter the option --homedir can be used. This option has only an effect when used on the command line. This option has currently no effect at all o
