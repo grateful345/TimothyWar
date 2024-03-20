@@ -22,6 +22,84 @@ git clone https://github.com/ngrok/ngrok-webhook-nodejs-sample.git
 npm start
 
 ngrok http 3000
+
+// server.mjs
+import { createServer } from 'node:http';
+
+const server = createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Hello World!\n');
+});
+
+// starts a simple http server locally on port 3000
+server.listen(3000, '127.0.0.1', () => {
+  console.log('Listening on 127.0.0.1:3000');
+});
+
+// run with `node server.mjs`
+// tests.mjs
+import assert from 'node:assert';
+import test from 'node:test';
+
+test('that 1 is equal 1', () => {
+  assert.strictEqual(1, 1);
+});
+
+test('that throws as 1 is not equal 2', () => {
+  // throws an exception because 1 != 2
+  assert.strictEqual(1, 2);
+});
+
+// run with `node tests.mjs`
+// crypto.mjs
+import { createHash } from 'node:crypto';
+import { readFile } from 'node:fs/promises';
+
+const hasher = createHash('sha1');
+
+hasher.setEncoding('hex');
+// ensure you have a `package.json` file for this test!
+hasher.write(await readFile('package.json'));
+hasher.end();
+
+const fileHash = hasher.read();
+
+// run with `node crypto.mjs`
+// streams.mjs
+import { pipeline } from 'node:stream';
+import { createReadStream, createWriteStream } from 'node:fs';
+import { createGzip } from 'node:zlib';
+import { promisify } from 'node:util';
+
+await promisify(pipeline)
+( // ensure you have a `package.json` file for this test!
+  createReadStream('package.json'),
+  createGzip(),
+  createWriteStream('package.json.gz')
+);
+
+// run with `node streams.mjs`
+// threads.mjs
+import { Worker, isMainThread,
+  workerData, parentPort } from 'node:worker_threads';
+
+if (isMainThread) {
+  const data = 'some data';
+  const worker = new Worker(import.meta.filename, { workerData: data });
+  worker.on('message', msg => console.log('Reply from Thread:', msg));
+} else {
+  const source = workerData;
+  parentPort.postMessage(btoa(source.toUpperCase()));
+}
+
+// run with `node threads.mjs`
+
+
+
+
+
+
+
 ${now} - 60)) # Issues 60 seconds in the past
 exp=$
 ((${now} + 600)) # Expires 10 minutes in the future
@@ -21841,4 +21919,4 @@ curl -X GET -H "Authorization: Bearer {2bcbwvXZPklwJuD7l1Ts7r7vEHr_5mTiPcECPmXrQ
           #000006 $ Breadcrumbs X 4
 ### ++ Sigma 9 ++
           #000006 $ Breadcrumbs X 4
-HANDLE CreateFileA( [in] LPCSTR lpFileName, [in] DWORD dwDesiredAccess, [in] DWORD dwShareMode, [in, optional] LPSECURITY_ATTRIBUTES lpSecurityAttributes, [in] DWORD dwCreationDisposition, [in] DWORD dwFlagsAndAttributes, [in, optional] HANDLE hTemplateFile ); typedef struct _SECURITY_DESCR
+HANDLE CreateFileA( [in] LPCSTR lpFileName, [in] DWORD dwDesiredAccess, [in] DWORD dwShareMode, [in, optional] LPSECURITY_ATTRIBUTES lpSecurityAttributes,
