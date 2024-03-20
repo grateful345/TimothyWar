@@ -1,3 +1,204 @@
+![image](https://github.com/grateful345/TimothyWar/assets/163609752/cc1b6bf4-6b28-4d78-9bdb-6577d0fdc363)
+
+
+--import option.
+
+alice% gpg --import blake.gpg
+gpg: key 9E98BC16: public key imported
+gpg: Total number processed: 1
+gpg:               imported: 1
+alice% gpg --list-keys
+/users/alice/.gnupg/pubring.gpg
+---------------------------------------
+pub  1024D/BB7576AC 1999-06-04 Alice (Judge) <alice@cyb.org>
+sub  1024g/78E9A8FA 1999-06-04
+
+pub  1024D/9E98BC16 1999-06-04 Blake (Executioner) <blake@cyb.org>
+sub  1024g/5C8CBD41 1999-06-04
+Once a key is imported it should be validated. GnuPG uses a powerful and flexible trust model that does not require you to personally validate each key you import. Some keys may need to be personally validated, however. A key is validated by verifying the key's fingerprint and then signing the key to certify it as a valid key. A key's fingerprint can be quickly viewed with the --fingerprint command-line option, but in order to certify the key you must edit it.
+
+alice% gpg --edit-key blake@cyb.org
+
+pub  1024D/9E98BC16  created: 1999-06-04 expires: never      trust: -/q
+sub  1024g/5C8CBD41  created: 1999-06-04 expires: never     
+(1)  Blake (Executioner) <blake@cyb.org>
+
+Command> fpr
+pub  1024D/9E98BC16 1999-06-04 Blake (Executioner) <blake@cyb.org>
+             Fingerprint: 268F 448F CCD7 AF34 183E  52D8 9BDE 1A08 9E98 BC16
+A key's fingerprint is verified with the key's owner. This may be done in person or over the phone or through any other means as long as you can guarantee that you are communicating with the key's true owner. If the fingerprint you get is the same as the fingerprint the key's owner gets, then you can be sure that you have a correct copy of the key.
+After checking the fingerprint, you may sign the key to validate it. Since key verification is a weak point in public-key cryptography, you should be extremely careful and always check a key's fingerprint with the owner before signing the key.
+
+Command> sign
+             
+pub  1024D/9E98BC16  created: 1999-06-04 expires: never      trust: -/q
+             Fingerprint: 268F 448F CCD7 AF34 183E  52D8 9BDE 1A08 9E98 BC16
+
+     Blake (Executioner) <blake@cyb.org>
+
+Are you really sure that you want to sign this key
+with your key: "Alice (Judge) <alice@cyb.org>"
+
+Really sign?
+Once signed you can check the key to list the signatures on it and see the signature that you have added. Every user ID on the key will have one or more self-signatures as well as a signature for each user that has validated the key.
+
+Command> check
+uid  Blake (Executioner) <blake@cyb.org>
+sig!       9E98BC16 1999-06-04   [self-signature]
+sig!       BB7576AC 1999-06-04   Alice (Judge) <alice@cyb.org>
+
+--list-keys.
+
+alice% gpg --list-keys
+/users/alice/.gnupg/pubring.gpg
+---------------------------------------
+pub  1024D/BB7576AC 1999-06-04 Alice (Judge) <alice@cyb.org>
+sub  1024g/78E9A8FA 1999-06-04
+Exporting a public key
+
+To send your public key to a correspondent you must first export it. The command-line option --export is used to do this. It takes an additional argument identifying the public key to export. As with the --gen-revoke option, either the key ID or any part of the user ID may be used to identify the key to export.
+
+alice% gpg --output alice.gpg --export alice@cyb.org
+The key is exported in a binary format, but this can be inconvenient when the key is to be sent though email or published on a web page. GnuPG therefore supports a command-line option --armor[2] that causes output to be generated in an ASCII-armored format similar to uuencoded documents. In general, any output from GnuPG, e.g., keys, encrypted documents, and signatures, can be ASCII-armored by adding the --armor option.
+
+alice% gpg --armor --export alice@cyb.org
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: GnuPG v0.9.7 (GNU/Linux)
+Comment: For info see http://www.gnupg.org
+
+[...]
+-----END PGP PUBLIC KEY BLOCK-----
+
+alice% gpg --output doc.gpg --encrypt --recipient blake@cyb.org doc
+The --recipient option is used once for each recipient and takes an extra argument specifying the public key to which the document should be encrypted. The encrypted document can only be decrypted by someone with a private key that complements one of the recipients' public keys. In particular, you cannot decrypt a document encrypted by you unless you included your own public key in the recipient list.
+To decrypt a message the option --decrypt is used. You need the private key to which the message was encrypted. Similar to the encryption process, the document to decrypt is input, and the decrypted result is output.
+
+blake% gpg --output doc --decrypt doc.gpg
+
+You need a passphrase to unlock the secret key for
+user: "Blake (Executioner) <blake@cyb.org>"
+1024-bit ELG-E key, ID 5C8CBD41, created 1999-06-04 (main key ID 9E98BC16)
+
+Enter passphrase: 
+Documents may also be encrypted without using public-key cryptography. Instead, you use a symmetric cipher to encrypt the document. The key used to drive the symmetric cipher is derived from a passphrase supplied when the document is encrypted, and for good security, it should not be the same passphrase that you use to protect your private key. Symmetric encryption is useful for securing documents when the passphrase does not need to be communicated to others. A document can be encrypted with a symmetric cipher by using the --symmetric option.
+
+alice% gpg --output doc.gpg --symmetric doc
+Enter passphrase: gpg --encrypt --recipient 05D02D3D57ABFF46 FILENAME
+
+alice% gpg --output doc.sig --sign doc
+
+You need a passphrase to unlock the private key for
+user: "Alice (Judge) <alice@cyb.org>"
+1024-bit DSA key, ID BB7576AC, created 1999-06-04
+
+Enter passphrase: 
+The document is compressed before being signed, and the output is in binary format.
+Given a signed document, you can either check the signature or check the signature and recover the original document. To check the signature use the --verify option. To verify the signature and extract the document use the --decrypt option. The signed document to verify and recover is input and the recovered document is output.
+
+blake% gpg --output doc --decrypt doc.sig
+gpg: Signature made Fri Jun  4 12:02:38 1999 CDT using DSA key ID BB7576AC
+gpg: Good signature from "Alice (Judge) <alice@cyb.org>"
+alice% gpg --clearsign doc
+
+You need a passphrase to unlock the secret key for
+user: "Alice (Judge) <alice@cyb.org>"
+1024-bit DSA key, ID BB7576AC, created 1999-06-04
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+[...]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v0.9.7 (GNU/Linux)
+Comment: For info see http://www.gnupg.org
+
+iEYEARECAAYFAjdYCQoACgkQJ9S6ULt1dqz6IwCfQ7wP6i/i8HhbcOSKF4ELyQB1
+oCoAoOuqpRqEzr4kOkQqHRLE/b8/Rw2k
+=y6kj
+-----END PGP SIGNATURE-----
+
+option --edit-key may be used to view a keypair. For example,
+
+chloe% gpg --edit-key chloe@cyb.org
+Secret key is available.
+
+pub  1024D/26B6AAE1  created: 1999-06-15 expires: never      trust: -/u
+sub  2048g/0CF8CB7A  created: 1999-06-15 expires: never
+sub  1792G/08224617  created: 1999-06-15 expires: 2002-06-14
+sub   960D/B1F423E7  created: 1999-06-15 expires: 2002-06-14
+(1)  Chloe (Jester) <chloe@cyb.org>
+(2)  Chloe (Plebian) <chloe@tel.net>
+Command>
+The public key is displayed along with an indication of whether or not the private key is available. Information about each component of the public key is then listed. The first column indicates the type of the key. The keyword pub identifies the public master signing key, and the keyword sub identifies a public subordinate key. The second column indicates the key's bit length, type, and ID. The type is D for a DSA key, g for an encryption-only ElGamal key, and G for an ElGamal key that may be used for both encryption and signing. The creation date and expiration date are given in columns three and four. The user IDs are listed following the keys.
+More information about the key can be obtained with interactive commands. The command toggle switches between the public and private components of a keypair if indeed both components are available.
+
+Command> toggle
+
+sec  1024D/26B6AAE1  created: 1999-06-15 expires: never
+sbb  2048g/0CF8CB7A  created: 1999-06-15 expires: never
+sbb  1792G/08224617  created: 1999-06-15 expires: 2002-06-14
+sbb   960D/B1F423E7  created: 1999-06-15 expires: 2002-06-14
+(1)  Chloe (Jester) <chloe@cyb.org>
+(2)  Chloe (Plebian) <chloe@tel.net>
+
+chloe% gpg --edit-key chloe
+Secret key is available.
+
+pub  1024D/26B6AAE1  created: 1999-06-15 expires: never      trust: -/u
+sub  2048g/0CF8CB7A  created: 1999-06-15 expires: never
+sub  1792G/08224617  created: 1999-06-15 expires: 2002-06-14
+sub   960D/B1F423E7  created: 1999-06-15 expires: 2002-06-14
+(1)  Chloe (Jester) <chloe@cyb.org>
+(2)  Chloe (Plebian) <chloe@tel.net>
+
+Command> check
+uid  Chloe (Jester) <chloe@cyb.org>
+sig!	   26B6AAE1 1999-06-15	 [self-signature]
+uid  Chloe (Plebian) <chloe@tel.net>
+sig!	   26B6AAE1 1999-06-15	 [self-signature]
+As expected, the signing key for each signature is the master signing key with key ID 0x26B6AAE1. 
+alice% gpg --edit-key blake
+
+pub  1024D/8B927C8A  created: 1999-07-02 expires: never      trust: q/f
+sub  1024g/C19EA233  created: 1999-07-02 expires: never
+(1)  Blake (Executioner) <blake@cyb.org>
+
+Command> trust
+pub  1024D/8B927C8A  created: 1999-07-02 expires: never      trust: q/f
+sub  1024g/C19EA233  created: 1999-07-02 expires: never
+(1)  Blake (Executioner) <blake@cyb.org>
+
+Please decide how far you trust this user to correctly
+verify other users' keys (by looking at passports,
+checking fingerprints from different sources...)?
+
+ 1 = Don't know
+ 2 = I do NOT trust
+ 3 = I trust marginally
+ 4 = I trust fully
+ s = please show me more information
+ m = back to the main menu
+
+Your decision? 3
+
+pub  1024D/8B927C8A  created: 1999-07-02 expires: never      trust: m/f
+sub  1024g/C19EA233  created: 1999-07-02 expires: never
+(1)  Blake (Executioner) <blake@cyb.org>
+
+Command> quit
+[...]
+ --recv-keys is used to retrieve keys from a keyserver, but the option --recv-keys requires a key ID be used to specify the key. In the following example Alice updates her public key with new signatures from the keyserver certserver.pgp.com and then sends her copy of Blake's public key to the same keyserver to contribute any new signatures she may have added.
+
+alice% gpg --keyserver certserver.pgp.com --recv-key 0xBB7576AC
+gpg: requesting key BB7576AC from certserver.pgp.com ...
+gpg: key BB7576AC: 1 new signature
+
+gpg: Total number processed: 1
+gpg:	     new signatures: 1
+alice% gpg --keyserver certserver.pgp.com --send-key blake@cyb.org
+gpg: success sending to 'certserver.pgp.com' (status=200)
+
+
 file.md
 
 -----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -585,190 +786,7 @@ Subkeys and user IDs may also be deleted. To delete a subkey or user ID you must
 
 For local keyring management, deleting key components is a good way to trim other people's public keys of unnecessary material. Deleting user IDs and subkeys on your own key, however, is not always wise since it complicates key distribution. By default, when a user imports your updated public key it will be merged with the old copy of your public key on his ring if it exists. The components from both keys are combined in the merge, and this effectively restores any components you deleted. To properly update the key, the user must first delete the old version of your key and then import the new version. This puts an extra burden on the people with whom you communicate. Furthermore, if you send your key to a keyserver, the merge will happen regardless, and anybody who downloads your key from a keyserver will never see your key with components deleted. Consequently, for updating your own key it is better to revoke key components instead of deleting them.
 
-Revoking key components
-
-To revoke a subkey it must be selected. Once selected it may be revoked with the revkey command. The key is revoked by adding a revocation self-signature to the key. Unlike the command-line option --gen-revoke, the effect of revoking a subkey is immediate.
-
-Command> revkey
-Do you really want to revoke this key? y
-
-You need a passphrase to unlock the secret key for
-user: "Chloe (Jester) <chloe@cyb.org>"
-1024-bit DSA key, ID B87DBA93, created 1999-06-28
-
-
-pub  1024D/B87DBA93  created: 1999-06-28 expires: never      trust: -/u
-sub  2048g/B7934539  created: 1999-06-28 expires: never
-sub  1792G/4E3160AD  created: 1999-06-29 expires: 2000-06-28
-rev! subkey has been revoked: 1999-06-29
-sub   960D/E1F56448  created: 1999-06-29 expires: 2000-06-28
-(1)  Chloe (Jester) <chloe@cyb.org>
-(2)  Chloe (Plebian) <chloe@tel.net>
-A user ID is revoked differently. Normally, a user ID collects signatures that attest that the user ID describes the person who actually owns the associated key. In theory, a user ID describes a person forever, since that person will never change. In practice, though, elements of the user ID such as the email address and comment may change over time, thus invalidating the user ID.
-
-The OpenPGP specification does not support user ID revocation, but a user ID can effectively be revoked by revoking the self-signature on the user ID. For the security reasons described previously, correspondents will not trust a user ID with no valid self-signature.
-
-A signature is revoked by using the command revsig. Since you may have signed any number of user IDs, the user interface prompts you to decide for each signature whether or not to revoke it.
-
-Command> revsig
-You have signed these user IDs:
-     Chloe (Jester) <chloe@cyb.org>
-   signed by B87DBA93 at 1999-06-28
-     Chloe (Plebian) <chloe@tel.net>
-   signed by B87DBA93 at 1999-06-28
-user ID: "Chloe (Jester) <chloe@cyb.org>"
-signed with your key B87DBA93 at 1999-06-28
-Create a revocation certificate for this signature? (y/N)n
-user ID: "Chloe (Plebian) <chloe@tel.net>"
-signed with your key B87DBA93 at 1999-06-28
-Create a revocation certificate for this signature? (y/N)y
-You are about to revoke these signatures:
-     Chloe (Plebian) <chloe@tel.net>
-   signed by B87DBA93 at 1999-06-28
-Really create the revocation certificates? (y/N)y
-
-You need a passphrase to unlock the secret key for
-user: "Chloe (Jester) <chloe@cyb.org>"
-1024-bit DSA key, ID B87DBA93, created 1999-06-28
-
-
-pub  1024D/B87DBA93  created: 1999-06-28 expires: never      trust: -/u
-sub  2048g/B7934539  created: 1999-06-28 expires: never
-sub  1792G/4E3160AD  created: 1999-06-29 expires: 2000-06-28
-rev! subkey has been revoked: 1999-06-29
-sub   960D/E1F56448  created: 1999-06-29 expires: 2000-06-28
-(1)  Chloe (Jester) <chloe@cyb.org>
-(2)  Chloe (Plebian) <chloe@tel.net>
-A revoked user ID is indicated by the revocation signature on the ID when the signatures on the key's user IDs are listed.
-
-Command> check
-uid  Chloe (Jester) <chloe@cyb.org>
-sig!	   B87DBA93 1999-06-28	 [self-signature]
-uid  Chloe (Plebian) <chloe@tel.net>
-rev!	   B87DBA93 1999-06-29	 [revocation]
-sig!	   B87DBA93 1999-06-28	 [self-signature]
-Revoking both subkeys and self-signatures on user IDs adds revocation self-signatures to the key. Since signatures are being added and no material is deleted, a revocation will always be visible to others when your updated public key is distributed and merged with older copies of it. Revocation therefore guarantees that everybody has a consistent copy of your public key.
-
-Updating a key's expiration time
-
-The expiration time of a key may be updated with the command expire from the key edit menu. If no key is selected the expiration time of the primary key is updated. Otherwise the expiration time of the selected subordinate key is updated.
-
-A key's expiration time is associated with the key's self-signature. The expiration time is updated by deleting the old self-signature and adding a new self-signature. Since correspondents will not have deleted the old self-signature, they will see an additional self-signature on the key when they update their copy of your key. The latest self-signature takes precedence, however, so all correspondents will unambiguously know the expiration times of your keys.
-
-Validating other keys on your public keyring
-
-In Chapter 1 a procedure was given to validate your correspondents' public keys: a correspondent's key is validated by personally checking his key's fingerprint and then signing his public key with your private key. By personally checking the fingerprint you can be sure that the key really does belong to him, and since you have signed they key, you can be sure to detect any tampering with it in the future. Unfortunately, this procedure is awkward when either you must validate a large number of keys or communicate with people whom you do not know personally.
-
-GnuPG addresses this problem with a mechanism popularly known as the web of trust. In the web of trust model, responsibility for validating public keys is delegated to people you trust. For example, suppose
-
-Alice has signed Blake's key, and
-
-Blake has signed Chloe's key and Dharma's key.
-
-If Alice trusts Blake to properly validate keys that he signs, then Alice can infer that Chloe's and Dharma's keys are valid without having to personally check them. She simply uses her validated copy of Blake's public key to check that Blake's signatures on Chloe's and Dharma's are good. In general, assuming that Alice fully trusts everybody to properly validate keys they sign, then any key signed by a valid key is also considered valid. The root is Alice's key, which is axiomatically assumed to be valid.
-Trust in a key's owner
-
-In practice trust is subjective. For example, Blake's key is valid to Alice since she signed it, but she may not trust Blake to properly validate keys that he signs. In that case, she would not take Chloe's and Dharma's key as valid based on Blake's signatures alone. The web of trust model accounts for this by associating with each public key on your keyring an indication of how much you trust the key's owner. There are four trust levels.
-
-unknown
-Nothing is known about the owner's judgment in key signing. Keys on your public keyring that you do not own initially have this trust level.
-
-none
-The owner is known to improperly sign other keys.
-
-marginal
-The owner understands the implications of key signing and properly validates keys before signing them.
-
-full
-The owner has an excellent understanding of key signing, and his signature on a key would be as good as your own.
-
-A key's trust level is something that you alone assign to the key, and it is considered private information. It is not packaged with the key when it is exported; it is even stored separately from your keyrings in a separate database.
-The GnuPG key editor may be used to adjust your trust in a key's owner. The command is trust. In this example Alice edits her trust in Blake and then updates the trust database to recompute which keys are valid based on her new trust in Blake.
-
-alice% gpg --edit-key blake
-
-pub  1024D/8B927C8A  created: 1999-07-02 expires: never      trust: q/f
-sub  1024g/C19EA233  created: 1999-07-02 expires: never
-(1)  Blake (Executioner) <blake@cyb.org>
-
-Command> trust
-pub  1024D/8B927C8A  created: 1999-07-02 expires: never      trust: q/f
-sub  1024g/C19EA233  created: 1999-07-02 expires: never
-(1)  Blake (Executioner) <blake@cyb.org>
-
-Please decide how far you trust this user to correctly
-verify other users' keys (by looking at passports,
-checking fingerprints from different sources...)?
-
- 1 = Don't know
- 2 = I do NOT trust
- 3 = I trust marginally
- 4 = I trust fully
- s = please show me more information
- m = back to the main menu
-
-Your decision? 3
-
-pub  1024D/8B927C8A  created: 1999-07-02 expires: never      trust: m/f
-sub  1024g/C19EA233  created: 1999-07-02 expires: never
-(1)  Blake (Executioner) <blake@cyb.org>
-
-Command> quit
-[...]
-Trust in the key's owner and the key's validity are indicated to the right when the key is displayed. Trust in the owner is displayed first and the key's validity is second[4]. The four trust/validity levels are abbreviated: unknown (q), none (n), marginal (m), and full (f). In this case, Blake's key is fully valid since Alice signed it herself. She initially has an unknown trust in Blake to properly sign other keys but decides to trust him marginally.
-Using trust to validate keys
-
-The web of trust allows a more elaborate algorithm to be used to validate a key. Formerly, a key was considered valid only if you signed it personally. A more flexible algorithm can now be used: a key K is considered valid if it meets two conditions:
-
-it is signed by enough valid keys, meaning
-
-you have signed it personally,
-
-it has been signed by one fully trusted key, or
-
-it has been signed by three marginally trusted keys; and
-
-the path of signed keys leading from K back to your own key is five steps or shorter.
-
-The path length, number of marginally trusted keys required, and number of fully trusted keys required may be adjusted. The numbers given above are the default values used by GnuPG.
-Figure 3-1 shows a web of trust rooted at Alice. The graph illustrates who has signed who's keys. The table shows which keys Alice considers valid based on her trust in the other members of the web. This example assumes that two marginally-trusted keys or one fully-trusted key is needed to validate another key. The maximum path length is three.
-
-When computing valid keys in the example, Blake and Dharma's are always considered fully valid since they were signed directly by Alice. The validity of the other keys depends on trust. In the first case, Dharma is trusted fully, which implies that Chloe's and Francis's keys will be considered valid. In the second example, Blake and Dharma are trusted marginally. Since two marginally trusted keys are needed to fully validate a key, Chloe's key will be considered fully valid, but Francis's key will be considered only marginally valid. In the case where Chloe and Dharma are marginally trusted, Chloe's key will be marginally valid since Dharma's key is fully valid. Francis's key, however, will also be considered marginally valid since only a fully valid key can be used to validate other keys, and Dharma's key is the only fully valid key that has been used to sign Francis's key. When marginal trust in Blake is added, Chloe's key becomes fully valid and can then be used to fully validate Francis's key and marginally validate Elena's key. Lastly, when Blake, Chloe, and Elena are fully trusted, this is still insufficient to validate Geoff's key since the maximum certification path is three, but the path length from Geoff back to Alice is four.
-
-The web of trust model is a flexible approach to the problem of safe public key exchange. It permits you to tune GnuPG to reflect how you use it. At one extreme you may insist on multiple, short paths from your key to another key K in order to trust it. On the other hand, you may be satisfied with longer paths and perhaps as little as one path from your key to the other key K. Requiring multiple, short paths is a strong guarantee that K belongs to whom your think it does. The price, of course, is that it is more difficult to validate keys since you must personally sign more keys than if you accepted fewer and longer paths.
-
-Figure 3-1. A hypothetical web of trust
-
-A graph indicating who has signed who's key
-
-trust	validity
-marginal	full	marginal	full
- 	Dharma	 	Blake, Chloe, Dharma, Francis
-Blake, Dharma	 	Francis	Blake, Chloe, Dharma
-Chloe, Dharma	 	Chloe, Francis	Blake, Dharma
-Blake, Chloe, Dharma	 	Elena	Blake, Chloe, Dharma, Francis
- 	Blake, Chloe, Elena	 	Blake, Chloe, Elena, Francis
-Distributing keys
-
-Ideally, you distribute your key by personally giving it to your correspondents. In practice, however, keys are often distributed by email or some other electronic communication medium. Distribution by email is good practice when you have only a few correspondents, and even if you have many correspondents, you can use an alternative means such as posting your public key on your World Wide Web homepage. This is unacceptable, however, if people who need your public key do not know where to find it on the Web.
-
-To solve this problem public key servers are used to collect and distribute public keys. A public key received by the server is either added to the server's database or merged with the existing key if already present. When a key request comes to the server, the server consults its database and returns the requested public key if found.
-
-A keyserver is also valuable when many people are frequently signing other people's keys. Without a keyserver, when Blake sign's Alice's key then Blake would send Alice a copy of her public key signed by him so that Alice could add the updated key to her ring as well as distribute it to all of her correspondents. Going through this effort fulfills Alice's and Blake's responsibility to the community at large in building tight webs of trust and thus improving the security of PGP. It is nevertheless a nuisance if key signing is frequent.
-
-Using a keyserver makes the process somewhat easier. When Blake signs Alice's key he sends the signed key to the key server. The key server adds Blake's signature to its copy of Alice's key. Individuals interested in updating their copy of Alice's key then consult the keyserver on their own initiative to retrieve the updated key. Alice need never be involved with distribution and can retrieve signatures on her key simply by querying a keyserver.
-
-One or more keys may be sent to a keyserver using the command-line option --send-keys. The option takes one or more key specifiers and sends the specified keys to the key server. The key server to which to send the keys is specified with the command-line option --keyserver. Similarly, the option --recv-keys is used to retrieve keys from a keyserver, but the option --recv-keys requires a key ID be used to specify the key. In the following example Alice updates her public key with new signatures from the keyserver certserver.pgp.com and then sends her copy of Blake's public key to the same keyserver to contribute any new signatures she may have added.
-
-alice% gpg --keyserver certserver.pgp.com --recv-key 0xBB7576AC
-gpg: requesting key BB7576AC from certserver.pgp.com ...
-gpg: key BB7576AC: 1 new signature
-
-gpg: Total number processed: 1
-gpg:	     new signatures: 1
-alice% gpg --keyserver certserver.pgp.com --send-key blake@cyb.org
-gpg: success sending to 'certserver.pgp.com' (status=200)
-There are several popular keyservers in use around the world. The major keyservers synchronize themselves, so it is fine to pick a keyserver close to you on the Internet and then use it regularly for sending and receiving keys.
+for sending and receiving keys.
 
 pip install --upgrade stripe
 Install from source with:
