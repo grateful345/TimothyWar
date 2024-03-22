@@ -22,6 +22,129 @@ FROM mcr.microsoft.com/devcontainers/base:ubuntu
 # Install the xz-utils package
 RUN apt-get update && apt-get install -y xz-utils
 Next, remove the image property from devcontainer.json (if it exists) and add the build and dockerfile properties instead:
+curl -L \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer <BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /BHAHZGDHHICG3LFF53OICRLF6UR24>" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  https://api.github.com/repos/OWNER/REPO/keys
+
+
+{
+  "type": "array",
+  "items": {
+    "title": "Deploy Key",
+    "description": "An SSH key granting access to a single repository.",
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer"
+      },
+      "key": {
+        "type": "string"
+      },
+      "url": {
+        "type": "string"
+      },
+      "title": {
+        "type": "string"
+      },
+      "verified": {
+        "type": "boolean"
+      },
+      "created_at": {
+        "type": "string"
+      },
+      "read_only": {
+        "type": "boolean"
+      },
+      "added_by": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "last_used": {
+        "type": [
+          "string",
+          "null"
+        ]
+      }
+    },
+    "required": [
+      "id",
+      "key",
+      "url",
+      "title",
+      "verified",
+      "created_at",
+      "read_only"
+    ]
+  }
+}
+
+curl -L \
+  -X POST \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer <BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /BHAHZGDHHICG3LFF53OICRLF6UR24>" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  https://api.github.com/repos/OWNER/REPO/keys \
+  -d '{"title":"octocat@octomac","key":"ssh-rsa AAA...","read_only":true}'
+
+{
+  "title": "Deploy Key",
+  "description": "An SSH key granting access to a single repository.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "key": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "verified": {
+      "type": "boolean"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "read_only": {
+      "type": "boolean"
+    },
+    "added_by": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "last_used": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "key",
+    "url",
+    "title",
+    "verified",
+    "created_at",
+    "read_only"
+  ]
+}
+
+curl -L \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer <BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /BHAHZGDHHICG3LFF53OICRLF6UR24>" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  https://api.github.com/repos/OWNER/REPO/keys/KEY_ID
 
 {
     "build": {
@@ -18946,186 +19069,4 @@ index 2b04521..69d4de9 100644
 + 
 +-curl -X GET -H "Authorization: Bearer {2bcbwvXZPklwJuD7l1Ts7r7vEHr_5mTiPcECPmXrQNJTZiGAQ}" -H "Ngrok-Version: 2" https://api.ngrok.com/edges/https/edghts_2bMmXLm72GkoHS8tCdzOuTQcG5r/routes/edghtsrt_2bMmXQ1tcvPsx0op3cx8T1C1WSO/user_agent_filter { "enabled": true, "allow": ["(Pingdom.com_bot_version_)(\d+).(\d+)"], "deny": ["(made_up_bot)/(\d+).(\d+)"] } curl -X PUT -H "Authorization: Bearer {2bcbwvXZPklwJuD7l1Ts7r7vEHr_5mTiPcECPmXrQNJTZiGAQ}" -H "Content-Type: application/json" -H "Ngrok-Version: 2" -d '{"enabled":true,"allow":["(Pingdom.com_bot_version_)(\d+).(\d+)"],"deny":["(made_up_bot)/(\d+).(\d+)"]}' https://api.ngrok.com/edges/https/edghts_2bMmXLm72GkoHS8tCdzOuTQcG5r/routes/edghtsrt_2bMmXQ1tcvPsx0op3cx8T1C1WSO/user_agent_filter { "enabled": true, "allow": ["(Pingdom.com_bot_version_)(\d+).(\d+)"], "deny": ["(made_up_bot)/(\d+).(\d+)"] } curl -X GET -H "Authorization: Bearer {2bcbwvXZPklwJuD7l1Ts7r7vEHr_5mTiPcECPmXrQNJTZiGAQ}" -H "Ngrok-Version: 2" https://api.ngrok.com/edges/https/edghts_2bMmXGZh5RnDO7bAgszNuVae4M3/routes/edghtsrt_2bMmXFkaPTLE9xyXTTTxigBRREN/saml { "enabled": true, "options_passthrough": false, "cookie_prefix": "", "inactivity_timeout": 0, "maximum_duration": 0, "idp_metadata_url": "", "idp_metadata": "\n\u003cEntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" validUntil="2020-09-14T12:53:23.691Z" cacheDuration="PT1M" entityID="http://127.0.0.1:12345/metadata\"\u003e\u003cIDPSSODescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol"\u003e\u003cNameIDFormat\u003eurn:oasis:names:tc:SAML:2.0:nameid-format:transient\u003c/NameIDFormat\u003e\u003cSingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="http://127.0.0.1:12345/sso\"\u003e\u003c/SingleSignOnService\u003e\u003cSingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://127.0.0.1:12345/sso\"\u003e\u003c/SingleSignOnService\u003e\u003c/IDPSSODescriptor\u003e\u003c/EntityDescriptor\u003e\n", "force_authn": false, "allow_idp_initiated": true, "authorized_groups": [], "entity_id": "https://idp.local-ngrok.com/saml/edghtsrt_2bMmXFkaPTLE9xyXTTTxigBRREN", "assertion_consumer_service_url": "https://idp.local-ngrok.com/saml/edghtsrt_2bMmXFkaPTLE9xyXTTTxigBRREN/acs", "single_logout_url": "https://idp.local-ngrok.com/saml/edghtsrt_2bMmXFkaPTLE9xyXTTTxigBRREN/slo", "request_signing_certificate_pem": "-----BEGIN CERTIFICATE-----\nMIIEBDCCAuygAwIBAgIRAOT8A8TGFjL7kvO/m0bVKR8wDQYJKoZIhvcNAQELBQAw\ngaAxTjBMBgNVBAoMRWh0dHBzOi8vaWRwLmxvY2FsLW5ncm9rLmNvbS9zYW1sL2Vk\nZ2h0c3J0XzJiTW1YRmthUFRMRTl4eVhUVFR4aWdCUlJFTjFOMEwGA1UEAwxFaHR0\ncHM6Ly9pZHAubG9jYWwtbmdyb2suY29tL3NhbWwvZWRnaHRzcnRfMmJNbVhGa2FQ\nVExFOXh5WFRUVHhpZ0JSUkVOMCAXDTI0MDEyMzE4MDkxOVoYDzIwNTkwMTE0MTgw\nOTE5WjCBoDFOMEwGA1UECgxFaHR0cHM6Ly9pZHAubG9jYWwtbmdyb2suY29tL3Nh\nbWwvZWRnaHRzcnRfMmJNbVhGa2FQVExFOXh5WFRUVHhpZ0JSUkVOMU4wTAYDVQQD\nDEVodHRwczovL2lkcC5sb2NhbC1uZ3Jvay5jb20vc2FtbC9lZGdodHNydF8yYk1t\nWEZrYVBUTEU5eHlYVFRUeGlnQlJSRU4wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw\nggEKAoIBAQCvvcWPTZy3bIjnFSZfEPwGwZcOzkNnIQrNlX5v7SsucJHCxtCNKt9B\nzi6HTcRteOGEydVOr3Lg8MX8DdEecOt4e0Hf0NeChbX1gYsS1b2+0Q9sf9sH7fu1\n1F5y7zOlVRvWjuars3HVYqGQkTBATAcqkvUuUJeHzyWleQ8CXL3Ixp2TcJa/7fsz\njW2Heg4CX6Lx3E3Z6cGh2hFi1VFuKdeAufgZGbAbIBUpAnMAwMdJI/MLp3D4fHQv\n0VCwdXKhWt+SvidWVBg2Tv97phncbNMPNVi6VERO8+n7A5qdHG9efGnOTrLnxzJu\n97AfRBU8I88kdy4trPy9xeFBwnvlnlhZAgMBAAGjNTAzMA4GA1UdDwEB/wQEAwIH\ngDATBgNVHSUEDDAKBggrBgEFBQcDATAMBgNVHRMBAf8EAjAAMA0GCSqGSIb3DQEB\nCwUAA4IBAQAWA4t3JKL1cjV+CO+doaad/QhlbfW+tbI2n3tuRlrvZWtJKATuKFBZ\nFOqp20EfaeOgtMyDRDU8UNLoMWVT8zNUmzh4MtkrBQkUplPCuBHf844gJtDJdcA8\nxFj/vJyuET18b7fn4ppPG6RAqwH5nbAQ18zbKr8MgEWK0YbX4Wb+3fZVRfbKMFPp\nGs9CoZyC/Tz0z50xI3Am4d8QxibQQOinAuPQk6HcyP5Eg+bdUrBYTEdWircNZ1Hs\nDVIblwsbQ7TvDp+qtzyVjbtwa8yLBSlPRXkoYaXKhU9ziIYT1GIqrhV2KNO8qXn7\nGNTnpMopy0wcdJ05v4S12jFaKFknbvTv\n-----END CERTIFICATE-----\n", "metadata_url": "https://idp.local-ngrok.com/saml/edghtsrt_2bMmXFkaPTLE9xyXTTTxigBRREN", "nameid_format": "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent" } curl -X PUT -H "Authorization: Bearer {2bcbwvXZPklwJuD7l1Ts7r7vEHr_5mTiPcECPmXrQNJTZiGAQ}" -H "Content-Type: application/json" -H "Ngrok-Version: 2" -d '{"enabled":true,"idp_metadata":"\n\u003cEntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" validUntil="2020-09-14T12:53:23.691Z" cacheDuration="PT1M" entityID="http://127.0.0.1:12345/metadata\"\u003e\u003cIDPSSODescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol"\u003e\u003cNameIDFormat\u003eurn:oasis:names:tc:SAML:2.0:nameid-format:transient\u003c/NameIDFormat\u003e\u003cSingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="http://127.0.0.1:12345/sso\"\u003e\u003c/SingleSignOnService\u003e\u003cSingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://127.0.0.1:12345/sso\"\u003e\u003c/SingleSignOnService\u003e\u003c/IDPSSODescriptor\u003e\u003c/EntityDescriptor\u003e\n"}' https://api.ngrok.com/edges/https/edghts_2bMmXGZh5RnDO7bAgszNuVae4M3/routes/edghtsrt_2bMmXFkaPTLE9xyXTTTxigBRREN/saml { "enabled": true, "options_passthrough": false, "cookie_prefix": "", "inactivity_timeout": 0, "maximum_duration": 0, "idp_metadata_url": "", "idp_metadata": "\n\u003cEntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" validUntil="2020-09-14T12:53:23.691Z" cacheDuration="PT1M" entityID="http://127.0.0.1:12345/metadata\"\u003e\u003cIDPSSODescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol"\u003e\u003cNameIDFormat\u003eurn:oasis:names:tc:SAML:2.0:nameid-format:transient\u003c/NameIDFormat\u003e\u003cSingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="http://127.0.0.1:12345/sso\"\u003e\u003c/SingleSignOnService\u003e\u003cSingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://127.0.0.1:12345/sso\"\u003e\u003c/SingleSignOnService\u003e\u003c/IDPSSODescriptor\u003e\u003c/EntityDescriptor\u003e\n", "force_authn": false, "allow_idp_initiated": true, "authorized_groups": [], "entity_id": "https://idp.local-ngrok.com/saml/edghtsrt_2bMmXFkaPTLE9xyXTTTxigBRREN", "assertion_consumer_service_url": "https://idp.local-ngrok.com/saml/edghtsrt_2bMmXFkaPTLE9xyXTTTxigBRREN/acs", "single_logout_url": "https://idp.local-ngrok.com/saml/edghtsrt_2bMmXFkaPTLE9xyXTTTxigBRREN/slo", "request_signing_certificate_pem": "----
 +\ No newline at end of file
-++curl -X GET -H "Authorization: Bearer {2bcbwvXZPklwJuD7l1Ts7r7vEHr_5mTiPcECPmXrQNJTZiGAQ}" -H "Ngrok-Version: 2" https://api.ngrok.com/edges/https/edghts_2bMmXLm72GkoHS8tCdzOuTQcG5r/routes/edghtsrt_2bMmXQ1tcvPsx0op3cx8T1C1WSO/user_agent_filter { "enabled": true, "allow": ["(Pingdom.com_bot_version_)(\d+).(\d+)"], "deny": ["(made_up_bot)/(\d+).(\d+)"] } curl -X PUT -H "Authorization: Bearer {2bcbwvXZPklwJuD7l1Ts7r7vEHr_5mTiPcECPmXrQNJTZiGAQ}" -H "Content-Type: application/json" -H "Ngrok-Version: 2" -d '{"enabled":true,"allow":["(Pingdom.com_bot_version_)(\d+).(\d+)"],"deny":["(made_up_bot)/(\d+).(\d+)"]}' https://api.ngrok.com/edges/https/edghts_2bMmXLm72GkoHS8tCdzOuTQcG5r/routes/edghtsrt_2bMmXQ1tcvPsx0op3cx8T1C1WSO/user_agent_filter { "enabled": true, "allow": ["(Pingdom.com_bot_version_)(\d+).(\d+)"], "deny": ["(made_up_bot)/(\d+).(\d+)"] } curl -X GET -H "Authorization: Bearer {2bcbwvXZPklwJuD7l1Ts7r7vEHr_5mTiPcECPmXrQNJTZiGAQ}" -H "Ngrok-Version: 2" https://api.ngrok.com/edges/https/edghts_2bMmXGZh5RnDO7bAgszNuVae4M3/routes/edghtsrt_2bMmXFkaPTLE9xyXTTTxigBRREN/saml { "enabled": true, "options_passthrough": false, "cookie_prefix": "", "inactivity_timeout": 0, "maximum_duration": 0, "idp_metadata_url": "", "idp_metadata": "\n\u003cEntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" validUntil="2020-09-14T12:53:23.691Z" cacheDuration="PT1M" entityID="http://127.0.0.1:12345/metadata\"\u003e\u003cIDPSSODescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol"\u003e\u003cNameIDFormat\u003eurn:oasis:names:tc:SAML:2.0:nameid-format:transient\u003c/NameIDFormat\u003e\u003cSingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="http://127.0.0.1:12345/sso\"\u003e\u003c/SingleSignOnService\u003e\u003cSingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://127.0.0.1:12345/sso\"\u003e\u003c/SingleSignOnService\u003e\u003c/IDPSSODescriptor\u003e\u003c/EntityDescriptor\u003e\n", "force_authn": false, "allow_idp_initiated": true, "authorized_groups": [], "entity_id": "https://idp.local-ngrok.com/saml/edghtsrt_2bMmXFkaPTLE9xyXTTTxigBRREN", "assertion_consumer_service_url": "https://idp.local-ngrok.com/saml/edghtsrt_2bMmXFkaPTLE9xyXTTTxigBRREN/acs", "single_logout_url": "https://idp.local-ngrok.com/saml/edghtsrt_2bMmXFkaPTLE9xyXTTTxigBRREN/slo", "request_signing_certificate_pem": "-----BEGIN CERTIFICATE-----\nMIIEBDCCAuygAwIBAgIRAOT8A8TGFjL7kvO/m0bVKR8wDQYJKoZIhvcNAQELBQAw\ngaAxTjBMBgNVBAoMRWh0dHBzOi8vaWRwLmxvY2FsLW5ncm9rLmNvbS9zYW1sL2Vk\nZ2h0c3J0XzJiTW1YRmthUFRMRTl4eVhUVFR4aWdCUlJFTjFOMEwGA1UEAwxFaHR0\ncHM6Ly9pZHAubG9jYWwtbmdyb2suY29tL3NhbWwvZWRnaHRzcnRfMmJNbVhGa2FQ\nVExFOXh5WFRUVHhpZ0JSUkVOMCAXDTI0MDEyMzE4MDkxOVoYDzIwNTkwMTE0MTgw\nOTE5WjCBoDFOMEwGA1UECgxFaHR0cHM6Ly9pZHAubG9jYWwtbmdyb2suY29tL3Nh\nbWwvZWRnaHRzcnRfMmJNbVhGa2FQVExFOXh5WFRUVHhpZ0JSUkVOMU4wTAYDVQQD\nDEVodHRwczovL2lkcC5sb2NhbC1uZ3Jvay5jb20vc2FtbC9lZGdodHNydF8yYk1t\nWEZrYVBUTEU5eHlYVFRUeGlnQlJSRU4wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw\nggEKAoIBAQCvvcWPTZy3bIjnFSZfEPwGwZcOzkNnIQrNlX5v7SsucJHCxtCNKt9B\nzi6HTcRteOGEydVOr3Lg8MX8DdEecOt4e0Hf0NeChbX1gYsS1b2+0Q9sf9sH7fu1\n1F5y7zOlVRvWjuars3HVYqGQkTBATAcqkvUuUJeHzyWleQ8CXL3Ixp2TcJa/7fsz\njW2Heg4CX6Lx3E3Z6cGh2hFi1VFuKdeAufgZGbAbIBUpAnMAwMdJI/MLp3D4fHQv\n0VCwdXKhWt+SvidWVBg2Tv97phncbNMPNVi6VERO8+n7A5qdHG9efGnOTrLnxzJu\n97AfRBU8I88kdy4trPy9xeFBwnvlnlhZAgMBAAGjNTAzMA4GA1UdDwEB/wQEAwIH\ngDATBgNVHSUEDDAKBggrBgEFBQcDATAMBgNVHRMBAf8EAjAAMA0GCSqGSIb3DQEB\nCwUAA4IBAQAWA4t3JKL1cjV+CO+doaad/QhlbfW+tbI2n3tuRlrvZWtJKATuKFBZ\nFOqp20EfaeOgtMyDRDU8UNLoMWVT8zNUmzh4MtkrBQkUplPCuBHf844gJtDJdcA8\nxFj/vJyuET18b7fn4ppPG6RAqwH5nbAQ18zbKr8MgEWK0YbX4Wb+3fZVRfbKMFPp\nGs9CoZyC/Tz0z50xI3Am4d8QxibQQOinAuPQk6HcyP5Eg+bdUrBYTEdWircNZ1Hs\nDVIblwsbQ7TvDp+qtzyVjbtwa8yLBSlPRXkoYaXKhU9ziIYT1GIqrhV2KNO8qXn7\nGNTnpMopy0wcdJ05v4S12jFaKFknbvTv\n-----END CERTIFICATE-----\n", "metadata_url": "https://idp.local-ngrok.com/saml/edghtsrt_2bMmXFkaPTLE9xyXTTTxigBRREN", "nameid_format": "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent" } curl -X PUT -H "Authorization: Bearer {2bcbwvXZPklwJuD7l1Ts7r7vEHr_5mTiPcECPmXrQNJTZiGAQ}" -H "Content-Type: application/json" -H "Ngrok-Version: 2" -d '{"enabled":true,"idp_metadata":"\n\u003cEntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" validUntil="2020-09-14T12:53:23.691Z" cacheDuration="PT1M" entityID="http://127.0.0.1:12345/metadata\"\u003e\u003cIDPSSODescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol"\u003e\u003cNameIDFormat\u003eurn:oasis:names:tc:SAML:2.0:nameid-format:transient\u003c/NameIDFormat\u003e\u003cSingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="http://127.0.0.1:12345/sso\"\u003e\u003c/SingleSignOnService\u003e\u003cSingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://127.0.0.1:12345/sso\"\u003e\u003c/SingleSignOnService\u003e\u003c/IDPSSODescriptor\u003e\u003c/EntityDescriptor\u003e\n"}' https://api.ngrok.com/edges/https/edghts_2bMmXGZh5RnDO7bAgszNuVae4M3/routes/edghtsrt_2bMmXFkaPTLE9xyXTTTxigBRREN/saml { "enabled": true, "options_passthrough": false, "cookie_prefix": "", "inactivity_timeout": 0, "maximum_duration": 0, "idp_metadata_url": "", "idp_metadata": "\n\u003cEntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" validUntil="2020-09-14T12:53:23.691Z" cacheDuration="PT1M" entityID="http://127.0.0.1:12345/metadata\"\u003e\u003cIDPSSODescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol"\u003e\u003cNameIDFormat\u003eurn:oasis:names:tc:SAML:2.0:nameid-format:transient\u003c/NameIDFormat\u003e\u003cSingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="http://127.0.0.1:12345/sso\"\u003e\u003c/SingleSignOnService\u003e\u003cSingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://127.0.0.1:12345/sso\"\u003e\u003c/SingleSignOnService\u003e\u003c/IDPSSODescriptor\u003e\u003c/EntityDescriptor\u003e\n", "force_authn": false, "allow_idp_initiated": true, "authorized_groups": [], "entity_id": "https://idp.local-ngrok.com/saml/edghtsrt_2bMmXFkaPTLE9xyXTTTxigBRREN", "assertion_consumer_service_url": "https://idp.local-ngrok.com/saml/edghtsrt_2bMmXFkaPTLE9xyXTTTxigBRREN/acs", "single_logout_url": "https://idp.local-ngrok.com/saml/edghtsrt_2bMmXFkaPTLE9xyXTTTxigBRREN/slo", "request_signing_certificate_pem": "----
-
-
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: actions-runners-webhook-server
-spec:
-  rules:
-  - http:
-      paths:
-      - path: /
-        backend:
-          service:
-            name: github-webhook-server
-            port:
-              number: 80
-        pathType: Exact
-Autoscaling to/from 0
-
-This feature requires controller version => v0.19.0
-The regular RunnerDeployment / RunnerSet replicas: attribute as well as the HorizontalRunnerAutoscaler minReplicas: attribute supports being set to 0.
-
-The main use case for scaling from 0 is with the HorizontalRunnerAutoscaler kind. To scale from 0 whilst still being able to provision runners as jobs are queued we must use the HorizontalRunnerAutoscaler with only certain scaling configurations, only the below configurations support scaling from 0 whilst also being able to provision runners as jobs are queued:
-
-TotalNumberOfQueuedAndInProgressWorkflowRuns
-PercentageRunnersBusy + TotalNumberOfQueuedAndInProgressWorkflowRuns
-Webhook-based autoscaling
-PercentageRunnersBusy can't be used alone for scale-from-zero as, by its definition, it needs one or more GitHub runners to become busy to be able to scale. If there isn't a runner to pick up a job and enter a busy state then the controller will never know to provision a runner to begin with as this metric has no knowledge of the job queue and is relying on using the number of busy runners as a means for calculating the desired replica count.
-
-Webhook-based autoscaling is the best option as it is relatively easy to configure and also it can scale quickly.
-
-Scheduled Overrides
-
-This feature requires controller version => v0.19.0
-Scheduled Overrides allows you to configure HorizontalRunnerAutoscaler so that its spec: gets updated only during a certain period of time. This feature is usually used for the following scenarios:
-
-You want to reduce your infrastructure costs by scaling your Kubernetes nodes down outside a given period
-You want to scale for scheduled spikes in workloads
-The most basic usage of this feature is to set a non-repeating override:
-
-apiVersion: actions.summerwind.dev/v1alpha1
-kind: HorizontalRunnerAutoscaler
-metadata:
-  name: example-runner-deployment-autoscaler
-spec:
-  scaleTargetRef:
-    kind: RunnerDeployment
-    # # In case the scale target is RunnerSet:
-    # kind: RunnerSet
-    name: example-runner-deployment
-  scheduledOverrides:
-  # Override minReplicas to 100 only between 2021-06-01T00:00:00+09:00 and 2021-06-03T00:00:00+09:00
-  - startTime: "2021-06-01T00:00:00+09:00"
-    endTime: "2021-06-03T00:00:00+09:00"
-    minReplicas: 100
-  minReplicas: 1
-A scheduled override without recurrenceRule is considered a one-off override, that is active between startTime and endTime. In the second scenario, it overrides minReplicas to 100 only between 2021-06-01T00:00:00+09:00 and 2021-06-03T00:00:00+09:00.
-
-A more advanced configuration is to include a recurrenceRule in the override:
-
-apiVersion: actions.summerwind.dev/v1alpha1
-kind: HorizontalRunnerAutoscaler
-metadata:
-  name: example-runner-deployment-autoscaler
-spec:
-  scaleTargetRef:
-    kind: RunnerDeployment
-    # # In case the scale target is RunnerSet:
-    # kind: RunnerSet
-    name: example-runner-deployment
-  scheduledOverrides:
-  # Override minReplicas to 0 only between 0am sat to 0am mon
-  - startTime: "2021-05-01T00:00:00+09:00"
-    endTime: "2021-05-03T00:00:00+09:00"
-    recurrenceRule:
-      frequency: Weekly
-      # Optional sunset datetime attribute
-      # untilTime: "2022-05-01T00:00:00+09:00"
-    minReplicas: 0
-  minReplicas: 1
-A recurring override is initially active between startTime and endTime, and then it repeatedly gets activated after a certain period of time denoted by frequency.
-
-frequecy can take one of the following values:
-
-Daily
-Weekly
-Monthly
-Yearly
-By default, a scheduled override repeats forever. If you want it to repeat until a specific point in time, define untilTime. The controller creates the last recurrence of the override until the recurrence's startTime is equal or earlier than untilTime.
-
-Do ensure that you have enough slack for untilTime so that a delayed or offline actions-runner-controller is much less likely to miss the last recurrence. For example, you might want to set untilTime to M minutes after the last recurrence's startTime, so that actions-runner-controller being offline up to M minutes doesn't miss the last recurrence.
-
-Combining Multiple Scheduled Overrides:
-
-In case you have a more complex scenario, try writing two or more entries under scheduledOverrides.
-
-The earlier entry is prioritized higher than later entries. So you usually define one-time overrides at the top of your list, then yearly, monthly, weekly, and lastly daily overrides.
-
-A common use case for this may be to have 1 override to scale to 0 during non-working hours and another override to scale to 0 on weekends.
-
-Configuring automatic termination
-
-As of ARC 0.27.0 (unreleased as of 2022/09/30), runners can only wait for 15 seconds by default on pod termination.
-
-This can be problematic in two scenarios:
-
-Scenario 1 - RunnerSet-only: You're triggering updates other than replica changes to RunnerSet very often- With current implementation, every update except replicas change to RunnerSet may result in terminating the in-progress workflow jobs to fail.
-Scenario 2 - RunnerDeployment and RunnerSet: You have another Kubernetes controller that evicts runner pods directly, not consulting ARC.
-RunnerDeployment is not affected by the Scenario 1 as RunnerDeployment-managed runners are already tolerable to unlimitedly long in-progress running job while being replaced, as it's graceful termination process is handled outside of the entrypoint and the Kubernetes' pod termination process.
-To make it more reliable, please set spec.template.spec.terminationGracePeriodSeconds field and the RUNNER_GRACEFUL_STOP_TIMEOUT environment variable appropriately. NOTE: if you are using the default configuration of running DinD as a sidecar, you'll need to set this environment variable in both spec.template.spec.env as well as spec.template.spec.dockerEnv for RunnerDeployment objects, otherwise the docker container will recieve the same termination signal and exit while the remainder of the build runs.
-
-If you want the pod to terminate in approximately 110 seconds at the latest since the termination request, try terminationGracePeriodSeconds of 110 and RUNNER_GRACEFUL_STOP_TIMEOUT of like 90.
-
-The difference between terminationGracePeriodSeconds and RUNNER_GRACEFUL_STOP_TIMEOUT can vary depending on your environment and cluster.
-
-The idea is two fold:
-
-RUNNER_GRACEFUL_STOP_TIMEOUT is for giving the runner the longest possible time to wait for the in-progress job to complete. You should keep this smaller than terminationGracePeriodSeconds so that you don't unnecessarily cancel running jobs.
-terminationGracePeriodSeconds is for giving the runner the longest possible time to stop before disappear. If the pod forcefully terminated before a graceful stop, the job running within the runner pod can hang like 10 minutes in the GitHub Actions Workflow Run/Job UI. A correct value for this avoids the hang, even though it had to cancel the running job due to the approaching deadline.
-We know the default 15 seconds timeout is too short to be useful at all. In near future, we might raise the default to, for example, 100 seconds, so that runners that are tend to run up to 100 seconds jobs can terminate gracefully without failing running jobs. It will also allow the job which were running on the node that was requsted for termination to correct report its status as "cancelled", rather than hanging approximately 10 minutes in the Actions Web UI until it finally fails(without any specific error message). 100 seconds is just an example. It might be a good default in case you're using AWS EC2 Spot Instances because they tend to send termination notice two minutes before the termination. If you have any other suggestions for the default value, please share your thoughts in Discussions.
-Additional Settings
-
-You can pass details through the spec selector. Here's an eg. of what you may like to do:
-
-apiVersion: actions.summerwind.dev/v1alpha1
-kind: RunnerDeployment
-metadata:
-  name: actions-runner
-  namespace: default
-spec:
-  replicas: 2
-  template:
-    metadata:
-      annotations:
-        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
-    spec:
-      priorityClassName: "high"
-      nodeSelector:
-        node-role.kubernetes.io/test: ""
-
-      securityContext:
-        #All level/role/type/user values will vary based on your SELinux policies.
-        #See https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux_atomic_host/7/html/container_security_guide/docker_selinux_security_policy for information about SELinux with containers
-        seLinuxOptions:
-          level: "s0"
-          role: "system_r"
-          type: "super_t"
-          user: "system_u"
-
-      tolerations:
-      - effect: NoSchedule
-        key: node-role.kubernetes.io/test
-        operator: Exists
-
-      topologySpreadConstraints:
-        - maxSkew: 1
-          topologyKey: kubernetes.io/hostname
-          whenUnsatisfiable: ScheduleAnyway
-          labelSelector:
-            matchLabels:
-              runner-deployment-name: actions-runner
-
-      repository: mumoshu/actions-runner-controller-ci
-      # The default "summerwind/actions-runner" images are available at DockerHub:
-      # https://hub.docker.com/r/summerwind/actions-runner
-      # You can also build your own and specify it like the below:
-      image: custom-image/actions-runner:latest
-      imagePullPolicy: Always
-      resources:
-        limits:
-          cpu: "4.0"
-          memory: "8Gi"
-        requests:
-          cpu: "2.0"
-          memory: "4Gi"
-      # Timeout after a node crashed or became unreachable to evict your pods somewhere else (default 5mins)
-      tolerations:
-        - key: "node.kubernetes.io/unreachable"
-          operator: "Exists"
-          effect: "NoExecute"
-          tolerationSeconds: 10
-      # true (default) = The runner restarts after running jobs, to ensure a clean and reprodu
+++curl -X GET -H "Authorization: Bearer {2bcbwvXZPklwJuD7l1Ts7r7vEHr_5mTiPcECPmXrQNJTZiGAQ}" -H "Ngrok-Version: 2" https://api.ngrok.com/edges/https/edghts_2bMmXLm72GkoHS8tCdzOuTQcG5r/routes/edghtsrt_2bMmXQ1tcvPsx0op3cx8T1C1WSO/user_agent_filter { "enabled": true, "allow": ["(Pingdom.com_bot_version_)(\d+).(\d+)"], "deny": ["(made_up_bot)/(\d+).(\d+)"] } curl -X PUT -H "Authorization: Bearer {2bcbwvXZPklwJuD7l1Ts7r7vEHr_5mTiPcECPmXrQNJTZiGAQ}" -H "Content-Type: application/json" -H "Ngrok-Version: 2" -d '{"enabled":true,"allow":["(Pingdom.com_bot_version_)(\d+).(\d+)"],"deny":["(made_up_bot)/(\d+).(\d+)"]}' https://api.ngrok.com/edges/https/edghts_2bMmXLm72GkoHS8tCdzOuTQcG5r/routes/edghtsrt_2bMmXQ1tcvPsx0op3cx8T1C1WSO/user_agent_filter { "enabled": true, "allow": ["(Pingdom.com_bot_version_)(\d+).(\d+)"], "deny": ["(made_up_bot)/(\d+).(\d+)"] } curl -X GET -H "Authorization: Bearer {2bcbwvXZPklwJuD7l1Ts7r7vEHr_5mTiPcECPmXrQNJTZiGAQ}" -H "Ngrok-Version: 2" https://api.ngrok.com/edges/https/edghts_2bMmXGZh5RnDO7bAgszNuVae4M3/routes/edghtsrt_2bMmXFkaPTLE9xyXTTTxigBRREN/saml { "enabled": true, "options_passthrough": false, "cookie_prefix": "", "inactivity_timeout": 0, "maximum_duration": 0, "idp_metadata_url": "", "idp_metadata": "\n\u003cEntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" validUntil="2020-09-14T12:53:23.691Z" cacheDuration="PT1M" entityID="http://127.0.0.1:12345/metadata\"\u003e\u003cIDPSSODescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol"\u003e\u003cNameIDFormat\u003eurn:oasis:names:tc:SAML:2.0:nameid-format:transient\u003c/NameIDFormat\u003e\u003cSingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="http://127.0.0.1:12345/sso\"\u003e\u003c/SingleSignOnService\u003e\u003cSingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://127.0.0.1:12345/sso\"\u003e\u003c/SingleSignOnService\u003e\u003c/IDPSSODescriptor\u003e\u003c/EntityDescriptor\u003e\n", "force_authn": false, "allow_idp_initiated": true, "authorized_groups": [], "entity_id": "https://idp.local-ngrok.com/saml/edghtsrt_2bMmXFkaPTLE9xyXTTTxigBRREN", "assertion_consumer_service_url": "https://idp.local-ngrok.com/saml/edghtsrt_2bMmXFkaPTLE9xyXTTTxigBRREN/acs", "single_logout_url": "https://idp.local-ngrok.com/saml/edghtsrt_2bMmXFkaPTLE9xyXTTTxigBRREN/slo", "request_signing_certificate_pem": "-----BEGIN CERTIFICATE-----\nMIIEBDCCAuygAwIBAgIRAOT8A8TGFjL7kvO/m0bVKR8wDQYJKoZIhvcNAQELBQAw\ngaAxTjBMBgNVBAoMRWh0dHBzOi8vaWRwLmxvY2FsLW5ncm9rLmNvbS9zYW1sL2Vk\nZ2h0c3J0XzJiTW1YRmthUFRMRTl4eVhUVFR4aWdCUlJFTjFOMEwGA1UEAwxFaHR0\ncHM6Ly9pZHAubG9jYWwtbmdyb2suY29tL3NhbWwvZWRnaHRzcnRfMmJNbVhGa2FQ\nVExFOXh5WFRUVHhpZ0JSUkVOMCAXDTI0MDEyMzE4MDkxOVoYDzIwNTkwMTE0MTgw\nOTE5WjCBoDFOMEwGA1UECgxFaHR0cHM6Ly9pZHAubG9jYWwtbmdyb2suY29tL3Nh\nbWwvZWRnaHRzcnRfMmJNbVhGa2FQVExFOXh5WFRUVHhpZ0JSUkVOMU4wTAYDVQQD\nDEVodHRwczovL2lkcC5sb2NhbC1uZ3Jvay5jb20vc2FtbC9lZGdodHNydF8yYk1t\nWEZrYVBUTEU5eHlYVFRUeGlnQlJSRU4wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw\nggEKAoIBAQCvvcWPTZy3bIjnFSZfEPwGwZcOzkNnIQrNlX5v7SsucJHCxtCNKt9B\nzi6HTcRteOGEydVOr3Lg8MX8DdEecOt4e0Hf0NeChbX1gYsS1b2+0Q9sf9sH7fu
