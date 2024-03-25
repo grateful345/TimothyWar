@@ -24,7 +24,7 @@ RUN apt-get update && apt-get install -y xz-utils
 Next, remove the image property from devcontainer.json (if it exists) and add the build and dockerfile properties instead:
 curl -L \
   -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer <BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /BHAHZGDHHICG3LFF53OICRLF6UR24>" \
+  -H "Authorization: Bearer <BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /BHAHZGDHHICG3LFF53OICRLF6UR24 / Magic API KEY:  alcht_ADS24iKB29HnDhzCuRIGlpUQ9a5bWl/. GitHub token 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>" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
   https://api.github.com/repos/OWNER/REPO/keys
 
@@ -85,7 +85,7 @@ curl -L \
 curl -L \
   -X POST \
   -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer <BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /BHAHZGDHHICG3LFF53OICRLF6UR24>" \
+  -H "Authorization: Bearer <BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /BHAHZGDHHICG3LFF53OICRLF6UR24/ Magic API KEY:  alcht_ADS24iKB29HnDhzCuRIGlpUQ9a5bWl/GitHub token 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>" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
   https://api.github.com/repos/OWNER/REPO/keys \
   -d '{"title":"octocat@octomac","key":"ssh-rsa AAA...","read_only":true}'
@@ -142,7 +142,7 @@ curl -L \
 
 curl -L \
   -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer <BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /BHAHZGDHHICG3LFF53OICRLF6UR24>" \
+  -H "Authorization: Bearer <BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /BHAHZGDHHICG3LFF53OICRLF6UR24/ Magic API KEY:  alcht_ADS24iKB29HnDhzCuRIGlpUQ9a5bWl/ GitHub token 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>" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
   https://api.github.com/repos/OWNER/REPO/keys/KEY_ID
 
@@ -165,7 +165,7 @@ jobs:
     steps:
       - run: gh issue comment $ISSUE --body "Thank you for opening this issue!"
         env:
-          GH_TOKEN: ${{ BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24 }}
+          GH_TOKEN: ${{ BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24 /Magic API KEY:  alcht_ADS24iKB29HnDhzCuRIGlpUQ9a5bWl / GitHub token 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}}
           ISSUE: ${{ github.event.issue.html_url }}
 You can also execute API calls through GitHub CLI. For example, this workflow first uses the gh api subcommand to query the GraphQL API and parse the result. Then it stores the result in an environment variable that it can access in a later step. In the second step, it uses the gh issue create subcommand to create an issue containing the information from the first step.
 
@@ -192,13 +192,13 @@ jobs:
 
           echo 'NUM_OPEN_ISSUES='$numOpenIssues >> $GITHUB_ENV
         env:
-          GH_TOKEN: ${{  BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24 }}
+          GH_TOKEN: ${{  BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24/ Magic API KEY:  alcht_ADS24iKB29HnDhzCuRIGlpUQ9a5bWl/ GitHub token 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 }}
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ Agency Webhook }}
       - run: |
           gh issue create --title "Issue report" --body "$NUM_OPEN_ISSUES issues remaining" --repo $GITHUB_REPOSITORY
         env:
-          GH_TOKEN: ${{  BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24 }}
+          GH_TOKEN: ${{  BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24/ GitHub token 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 }}
 
 name: Open new issue
 on: workflow_dispatch
@@ -214,7 +214,7 @@ jobs:
           gh issue --repo ${{ Agency Webhook }} \
             create --title "Issue title" --body "Issue body"
         env:
-          GH_TOKEN: ${{  BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24 }}
+          GH_TOKEN: ${{  BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24 /Magic API KEY:  alcht_ADS24iKB29HnDhzCuRIGlpUQ9a5bWl/GitHub token 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}}
 [Example 2: calling the REST API](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#example-2-calling-the-rest-api)
 
 You can use the GITHUB_TOKEN to make authenticated API calls. This example workflow creates an issue using the GitHub REST API:
@@ -233,7 +233,7 @@ jobs:
         run: |
           curl --request POST \
           --url https://api.github.com/repos/${{ github.repository }}/issues \
-          --header 'authorization: Bearer ${{  BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24 }}' \
+          --header 'authorization: Bearer ${{  BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24/ Magic API KEY:  alcht_ADS24iKB29HnDhzCuRIGlpUQ9a5bWl/ GitHub token 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 }}' \
           --header 'content-type: application/json' \
           --data '{
             "title": "Automated issue for commit: ${{ github.sha }}",
@@ -243,55 +243,55 @@ jobs:
 
 curl -L \
   -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer < BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24" \
+  -H "Authorization: Bearer < BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24/Magic API KEY:  alcht_ADS24iKB29HnDhzCuRIGlpUQ9a5bWl/GitHub token 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 > " \
   -H "X-GitHub-Api-Version: 2022-11-28" \
   "https://api.github.com/user/packages?package_type=container"
 curl -L \
   -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer < BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24" \
+  -H "Authorization: Bearer < BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24/ Magic API KEY:  alcht_ADS24iKB29HnDhzCuRIGlpUQ9a5bWl/ GitHub token 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>" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
   https://api.github.com/user/docker/conflicts
 curl -L \
   -X POST \
   -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer < BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24" \
+  -H "Authorization: Bearer < BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24/ Magic API KEY:  alcht_ADS24iKB29HnDhzCuRIGlpUQ9a5bWl/ GitHub token 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>" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
   https://api.github.com/orgs/ORG/packages/PACKAGE_TYPE/PACKAGE_NAME/versions/PACKAGE_VERSION_ID/restore
 
 curl -L \
   -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer < BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24" \
+  -H "Authorization: Bearer < BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24/Magic API KEY:  alcht_ADS24iKB29HnDhzCuRIGlpUQ9a5bWl/ GitHub token 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" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
   https://api.github.com/orgs/ORG/packages/PACKAGE_TYPE/PACKAGE_NAME/versions/PACKAGE_VERSION_ID
 curl -L \
   -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer < BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24>" \
+  -H "Authorization: Bearer < BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24/ Magic API KEY:  alcht_ADS24iKB29HnDhzCuRIGlpUQ9a5bWl / GitHub token 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>" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
   https://api.github.com/orgs/ORG/packages/PACKAGE_TYPE/PACKAGE_NAME/versions/PACKAGE_VERSION_ID
 curl -L \
   -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer < BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24>" \
+  -H "Authorization: Bearer < BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24/ Magic API KEY:  alcht_ADS24iKB29HnDhzCuRIGlpUQ9a5bWl/ GitHub token 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>" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
   https://api.github.com/orgs/ORG/packages/PACKAGE_TYPE/PACKAGE_NAME/versions
   curl -L \
   -X POST \
   -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer < BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24>" \
+  -H "Authorization: Bearer < BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24/Magic API KEY:  alcht_ADS24iKB29HnDhzCuRIGlpUQ9a5bWl / GitHub token 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>" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
   https://api.github.com/orgs/ORG/packages/PACKAGE_TYPE/PACKAGE_NAME/restore
 curl -L \
   -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer < BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24>" \
+  -H "Authorization: Bearer < BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24/Magic API KEY:  alcht_ADS24iKB29HnDhzCuRIGlpUQ9a5bWl/  GitHub token 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>" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
   https://api.github.com/orgs/ORG/packages/PACKAGE_TYPE/PACKAGE_NAME
 curl -L \
   -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer < BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24>" \
+  -H "Authorization: Bearer < BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24/Magic API KEY:  alcht_ADS24iKB29HnDhzCuRIGlpUQ9a5bWl/ GitHub token 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 >" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
   "https://api.github.com/orgs/ORG/packages?package_type=container"
 curl -L \
   -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer < BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24>" \
+  -H "Authorization: Bearer < BHAHZGCJZK3BEVS7IRGZMKDF6USLO / GitHub Runner tokens /  BHAHZGDHHICG3LFF53OICRLF6UR24/Magic API KEY:  alcht_ADS24iKB29HnDhzCuRIGlpUQ9a5bWl / GitHub token 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>" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
   https://api.github.com/orgs/ORG/docker/conflicts
 Connecting a repository to a package
